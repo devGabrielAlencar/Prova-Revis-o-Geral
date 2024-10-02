@@ -1,0 +1,93 @@
+produtos = []
+
+
+def calcular_total_produtos():
+    return sum(produto['total'] for produto in produtos)
+
+
+def adicionar_produto():
+    nome = input("Nome do produto: ")
+    quantidade = int(input("Quantidade: "))
+    valor_unitario = float(input("Valor unitário: "))
+    total = quantidade * valor_unitario
+
+    
+    produto = {
+        'produto': nome,
+        'quantidade': quantidade,
+        'valor': valor_unitario,
+        'total': total
+    }
+    produtos.append(produto)
+    print(f"Produto {nome} adicionado com sucesso!")
+    print(f"Valor total de todos os produtos: R${calcular_total_produtos():.2f}")
+
+
+def exibir_lista():
+    if not produtos:
+        print("A lista de produtos está vazia.")
+        return
+    print("\nLista de Produtos:")
+    for produto in produtos:
+        print(f"Produto: {produto['produto']}, Quantidade: {produto['quantidade']}, "
+              f"Valor Unitário: R${produto['valor']:.2f}, Total: R${produto['total']:.2f}")
+    print(f"\nValor total de todos os produtos: R${calcular_total_produtos():.2f}")
+
+
+def atualizar_produto():
+    nome = input("Digite o nome do produto que deseja atualizar: ")
+    for produto in produtos:
+        if produto['produto'] == nome:
+            novo_nome = input(f"Novo nome (atual: {produto['produto']}): ") or produto['produto']
+            nova_quantidade = int(input(f"Nova quantidade (atual: {produto['quantidade']}): ") or produto['quantidade'])
+            novo_valor = float(input(f"Novo valor unitário (atual: R${produto['valor']:.2f}): ") or produto['valor'])
+
+            # Atualizando o produto
+            produto['produto'] = novo_nome
+            produto['quantidade'] = nova_quantidade
+            produto['valor'] = novo_valor
+            produto['total'] = novo_valor * nova_quantidade
+            print(f"Produto {nome} atualizado com sucesso!")
+            print(f"Valor total de todos os produtos: R${calcular_total_produtos():.2f}")
+            return
+    print("Produto não encontrado!")
+
+
+def remover_produto():
+    nome = input("Digite o nome do produto que deseja remover: ")
+    for produto in produtos:
+        if produto['produto'] == nome:
+            produtos.remove(produto)
+            print(f"Produto {nome} removido com sucesso!")
+            print(f"Valor total de todos os produtos: R${calcular_total_produtos():.2f}")
+            return
+    print("Produto não encontrado!")
+
+
+def menu():
+    while True:
+        print("\n---- Lista de Compras ----")
+        print("1. Adicionar produto")
+        print("2. Ver lista de produtos")
+        print("3. Atualizar produto")
+        print("4. Remover produto")
+        print("5. Encerrar programa")
+
+        opcao = input("Escolha uma opção: ")
+
+        if opcao == '1':
+            adicionar_produto()
+        elif opcao == '2':
+            exibir_lista()
+        elif opcao == '3':
+            atualizar_produto()
+        elif opcao == '4':
+            remover_produto()
+        elif opcao == '5':
+            print("Encerrando o programa...")
+            break
+        else:
+            print("Opção inválida! Tente novamente.")
+
+
+menu()
